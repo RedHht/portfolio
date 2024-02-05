@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Error!</title>
+    <th:block th:replace="~{components/head}"> </th:block>
+</head>
+<body>
+<span th:replace="components/navbar" ></span>
+<p th:text="|ERROR! Code: ${code}!|"> </p>
+</body>
+</html>
