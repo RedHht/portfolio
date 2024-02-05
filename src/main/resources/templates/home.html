@@ -6,6 +6,19 @@
 </head>
 <body>
     <nav th:replace="~{components/navbar}"></nav>
-    <header class="h-screen bg-gradient-to-r from-cyan-500 to-blue-500"></header>
+    <header class="flex flex-col-reverse justify-center items-center h-screen bg-gray-900 lg:flex-row">
+        <div class="inline-block m-4 lg:w-1/3">
+            <h1 class="text-4xl text-white mb-4">¡Hola! 👋</h1>
+            <h2 class="text-5xl text-white mb-3">Me llamo Thiago Ianuzzi</h2>
+            <p class="text-white">Lorem sum ame, consectetur adipicing elit. Alias assumenda consequuntur eum hic, illo impedit iure nostrum numquam provident recusandae, sed similique sit sunt temporibus ullam ut vitae voluptate voluptatibus!</p>
+        </div>
+        <img class="m-4 h-2/5" th:src="@{img/logo.png}" alt="logo">
+    </header>
+    <main class="container mx-auto">
+        <div>
+            Lorem ipsum dolor st amet, consectetur adipisicingelit. Amet asperiores assumenda cum deleniti dolore
+            eligendi enim esse e facere harum laudantium minus molestias nihil, odit quidem quisquo sequi vero.
+        </div>
+    </main>
 </body>
 </html>
