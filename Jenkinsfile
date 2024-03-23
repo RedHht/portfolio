@@ -5,7 +5,14 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'mvn spring-boot:run'
+                script {
+                    def app = sh(script: 'mvn spring-boot:run &', returnStatus: true)
+                    if (app == 0) {
+                        echo 'La aplicación Spring Boot se ha ejecutado correctamente.'
+                    } else {
+                        error 'La aplicación Spring Boot no se ha podido ejecutar correctamente.'
+                    }
+                }
             }
         }
     }
