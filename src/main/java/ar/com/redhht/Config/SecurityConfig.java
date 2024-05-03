@@ -21,11 +21,11 @@ public class SecurityConfig {
     @Bean
     @Autowired
     UserDetailsService userDetailsService(UserRepository userRepository) {
-        List<DbUser> dbUsers = userRepository.getAll();
         InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager();
 
-        for (DbUser u : dbUsers){
-            detailsManager.createUser(User.withUsername(u.getUser())
+        for (DbUser u : userRepository.getAll()){
+            detailsManager.createUser(User
+                    .withUsername(u.getUser())
                     .password(u.getPassword())
                     .authorities("read")
                     .build());

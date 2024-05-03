@@ -1,7 +1,6 @@
 package ar.com.redhht.Model.Table;
 
 import ar.com.redhht.Model.Entity.DbUser;
-import ar.com.redhht.Model.Entity.Post;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
