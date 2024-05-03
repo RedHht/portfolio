@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title th:text="${title}"></title>
+    <th:block th:replace="~{components/head}"> </th:block>
+</head>
+<body class="bg-gray-900">
+    <nav th:replace="~{components/navbar}"></nav>
+
+    <main class="container mx-auto py-20 ">
+        <div class="border rounded-lg border-solid border-amber-50">
+            <article class="p-2" th:each="post: ${posts}">
+                <a th:href="@{/blog/view/{id}(id=${post.id})}" class="text-lg text-white font-semibold" th:text="${post.getTitle()}"></a>
+                <br>
+                <span class="text-sm text-white" th:text="'Autor: '+ ${post.getAuthor()}"></span>
+            </article>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title th:text="${title}"></title>
+    <th:block th:replace="~{components/head}"> </th:block>
+</head>
+<body class="bg-gray-900">
+
+    <nav th:replace="~{components/navbar}"></nav>
+
+    <main class="container mx-auto py-20 ">
+        <p class="text-xl text-white font-bold" th:text="${post.getTitle()}"></p>
+        <p class="text-white font-semibold mb-3" th:text="'Autor: '+ ${post.getAuthor()}"></p>
+        <p class="text-white" th:text="${post.getBody()}"></p>
+    </main>
+
+</body>
+</html>

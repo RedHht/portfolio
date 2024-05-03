@@ -9,10 +9,10 @@
         <ul class="flex my-3 flex-col md:my-auto md:inline-block">
             <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer
             hover:rounded-full hover:bg-red-400 hover:shadow-red-800 md:w-max">
-                <button class="text-white"><i class="fas fa-home mr-1"></i> Inicio</button>
+                <a th:href="@{/}"><button class="text-white"><i class="fas fa-home mr-1"></i> Inicio</button></a>
             </li>
             <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer hover:rounded-full hover:bg-red-400 hover:shadow-red-800">
-                <button class="text-white shadow-none"><i class="fas fa-paperclip mr-1"></i> Blog</button>
+                <a th:href="@{/blog}"><button class="text-white shadow-none"><i class="fas fa-paperclip mr-1"></i> Blog</button></a>
             </li>
             <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer hover:rounded-full hover:bg-red-400 hover:shadow-red-800">
                 <button class="text-white shadow-none"><i class="fas fa-info mr-1"></i> Acerca de</button>

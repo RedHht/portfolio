@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Inicio</title>
-    <meta name="google-site-verification" content="QPHAJdSQDNVEpP6aKJwbjMK_sR34aBjHruyeWOIGRRE" />
+    <title th:text="${title}"></title>
     <th:block th:replace="~{components/head}"> </th:block>
 </head>
 <body>
@@ -42,6 +41,11 @@
         <div class="inline-block size-20 mr-5 mt-5 ml-5 mb-5">
             <a href="https://spring.io/why-spring" target="_blank">
                 <img class="grayscale cursor-pointer object-scale-down h-full w-full transition-all ease-in-out duration-800 hover:grayscale-0" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Spring_Boot.svg/512px-Spring_Boot.svg.png" alt="spring">
+            </a>
+        </div>
+        <div class="inline-block size-20 mr-5 mt-5 ml-5 mb-5">
+            <a href="https://hibernate.org/" target="_blank">
+                <img class="grayscale cursor-pointer object-scale-down h-full w-full transition-all ease-in-out duration-800 hover:grayscale-0" src="https://cdn.worldvectorlogo.com/logos/hibernate.svg" alt="hibernate">
             </a>
         </div>
         <div class="inline-block size-20 mr-5 mt-5 ml-5 mb-5">

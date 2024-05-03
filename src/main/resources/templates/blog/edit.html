@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title th:text="${title}"></title>
+    <th:block th:replace="~{components/head}"> </th:block>
+</head>
+<body class="bg-gray-900">
+
+    <nav th:replace="~{components/navbar}"></nav>
+
+    <main class="container mx-auto py-20 ">
+        <form action="#" method="POST">
+            <label for="title">Título:</label><br>
+            <input type="text" id="title" name="title" th:value="${post.getTitle()}"><br>
+            <label for="author">Autor:</label><br>
+            <input type="text" id="author" name="author" th:value="${post.getAuthor()}"><br>
+            <label for="body">Contenido:</label><br>
+            <textarea id="body" name="body" th:text="${post.getBody()}"></textarea><br><br>
+            <input type="submit" value="Enviar">
+        </form>
+    </main>
+
+</body>
+</html>
