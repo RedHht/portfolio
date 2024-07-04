@@ -11,7 +11,17 @@ public class Post {
     @Column(name = "title") private String title;
     @Column(name = "body") private String body;
 
-    @Column(name = "author") private String author;
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private DbUser user;
+
+    public DbUser getUser() {
+        return user;
+    }
+
+    public void setUser(DbUser user) {
+        this.user = user;
+    }
 
     public int getId() { return id; }
 
@@ -29,12 +39,5 @@ public class Post {
         this.body = artist;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
 }

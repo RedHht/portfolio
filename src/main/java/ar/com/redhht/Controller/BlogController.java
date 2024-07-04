@@ -2,7 +2,9 @@ package ar.com.redhht.Controller;
 
 import ar.com.redhht.Model.Entity.Post;
 import ar.com.redhht.Model.Table.PostRepository;
+import ar.com.redhht.Model.Table.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +19,18 @@ import java.util.List;
 @RequestMapping(path = "/blog")
 public class BlogController{
 
-    private final PostRepository repository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    BlogController(PostRepository repository) {
-        this.repository = repository;
+    BlogController(PostRepository repository, UserRepository userRepository) {
+        this.postRepository = repository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping(path = "")
     public String handle(Model model) {
-        List<Post> posts = repository.getAll();
+        List<Post> posts = postRepository.getAll();
 
         model.addAttribute("posts", posts);
         model.addAttribute("page", "blog");
@@ -36,7 +40,7 @@ public class BlogController{
 
     @GetMapping(path = "/view/{post}")
     public String view(Model model, @PathVariable(value="post") int numerito) {
-        Post post = repository.getById(numerito);
+        Post post = postRepository.getById(numerito);
 
         model.addAttribute("post", post);
         model.addAttribute("page", "blog");
@@ -52,21 +56,22 @@ public class BlogController{
     }
 
     @PostMapping(path = "/new")
-    public String newPostForm(WebRequest webRequest) {
+    public String newPostForm(WebRequest webRequest, UserRepository userRepository) {
         Post post = new Post();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 
         post.setBody(webRequest.getParameter("body"));
-        post.setAuthor(webRequest.getParameter("author"));
+        post.setUser(this.userRepository.getByUser(principal));
         post.setTitle(webRequest.getParameter("title"));
 
-        repository.save(post);
+        postRepository.save(post);
 
         return "redirect:/blog";
     }
 
     @GetMapping(path = "/edit/{id}")
     public String editPost(Model model, @PathVariable String id) {
-        Post post = repository.getById(Integer.parseInt(id));
+        Post post = postRepository.getById(Integer.parseInt(id));
 
         model.addAttribute(post);
         return "blog/edit";
@@ -78,10 +83,10 @@ public class BlogController{
 
         post.setId(Integer.parseInt(id));
         post.setBody(webRequest.getParameter("body"));
-        post.setAuthor(webRequest.getParameter("author"));
+        //post.setAuthor(webRequest.getParameter("author"));
         post.setTitle(webRequest.getParameter("title"));
 
-        repository.update(post);
+        postRepository.update(post);
 
         return "redirect:/blog";
     }

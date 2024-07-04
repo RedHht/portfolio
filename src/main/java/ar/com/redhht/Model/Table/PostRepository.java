@@ -12,7 +12,6 @@ public class PostRepository{
 
     private final EntityManager entityManager;
 
-    @Autowired
     PostRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
