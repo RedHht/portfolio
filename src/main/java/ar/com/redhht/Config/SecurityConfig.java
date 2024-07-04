@@ -16,11 +16,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .rememberMe(Customizer.withDefaults())
                 .csrf(Customizer.withDefaults())
-                .authorizeHttpRequests(c -> c.anyRequest().authenticated())
+                .authorizeHttpRequests(c -> {
+                    c.requestMatchers("/blog/**").authenticated();
+                    c.requestMatchers("/**").permitAll();
+                })
                 .build();
     }
 
