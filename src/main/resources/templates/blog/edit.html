@@ -13,7 +13,7 @@
             <label for="title">Título:</label><br>
             <input type="text" id="title" name="title" th:value="${post.getTitle()}"><br>
             <label for="author">Autor:</label><br>
-            <input type="text" id="author" name="author" th:value="${post.getAuthor()}"><br>
+            <input type="text" id="author" name="author" th:value="${post.getUser().getUser()}"><br>
             <label for="body">Contenido:</label><br>
             <textarea id="body" name="body" th:text="${post.getBody()}"></textarea><br><br>
             <input type="submit" value="Enviar">
