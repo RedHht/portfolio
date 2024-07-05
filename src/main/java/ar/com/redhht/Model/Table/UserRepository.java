@@ -2,6 +2,7 @@ package ar.com.redhht.Model.Table;
 
 import ar.com.redhht.Model.Entity.DbUser;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,9 +24,13 @@ public class UserRepository implements UserDetailsService {
     }
 
     public DbUser getByUser(String userName) {
-        return this.entityManager.createQuery("SELECT p FROM DbUser p WHERE user = :userName", DbUser.class)
-                .setParameter("userName", userName)
-                .getSingleResult();
+        try {
+            return this.entityManager.createQuery("SELECT p FROM DbUser p WHERE user = :userName", DbUser.class)
+                    .setParameter("userName", userName)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public void save(DbUser user) {

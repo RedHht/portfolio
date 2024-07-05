@@ -4,6 +4,7 @@ import ar.com.redhht.Model.Entity.Post;
 import ar.com.redhht.Model.Table.PostRepository;
 import ar.com.redhht.Model.Table.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,13 +40,17 @@ public class BlogController{
         return "blog/index";
     }
 
-    @GetMapping(path = "/view/{post}")
-    public String view(Model model, @PathVariable(value="post") int numerito) {
-        Post post = postRepository.getById(numerito);
+    @GetMapping(path = "/view/{postId}")
+    public String view(Model model, @PathVariable int postId) {
+        Post post = postRepository.getById(postId);
+
+        if (post == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El post no existe");
+        }
 
         model.addAttribute("post", post);
         model.addAttribute("page", "blog");
-        model.addAttribute("title", "Blog - Post " + numerito);
+        model.addAttribute("title", "Blog - Post " + postId);
         return "blog/view";
     }
 
@@ -69,24 +75,30 @@ public class BlogController{
         return "redirect:/blog";
     }
 
-    @GetMapping(path = "/edit/{id}")
-    public String editPost(Model model, @PathVariable String id) {
-        Post post = postRepository.getById(Integer.parseInt(id));
+    @GetMapping(path = "/edit/{postId}")
+    public String editPost(Model model, @PathVariable int postId) {
+        Post post = postRepository.getById(postId);
+
+        if (post == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El post no existe");
+        }
 
         model.addAttribute(post);
         return "blog/edit";
     }
 
-    @PostMapping(path = "/edit/{id}")
-    public String editPostForm(WebRequest webRequest, @PathVariable String id) {
-        Post post = new Post();
+    @PostMapping(path = "/edit/{postId}")
+    public String editPostForm(WebRequest webRequest, @PathVariable int postId) {
+        Post originalPost = postRepository.getById(postId);
 
-        post.setId(Integer.parseInt(id));
-        post.setBody(webRequest.getParameter("body"));
-        //post.setAuthor(webRequest.getParameter("author"));
-        post.setTitle(webRequest.getParameter("title"));
+        if (originalPost == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El post no existe");
+        }
 
-        postRepository.update(post);
+        originalPost.setBody(webRequest.getParameter("body"));
+        originalPost.setTitle(webRequest.getParameter("title"));
+
+        postRepository.update(originalPost);
 
         return "redirect:/blog";
     }

@@ -11,7 +11,7 @@
     <main class="container mx-auto py-20 ">
         <p class="text-xl text-white font-bold" th:text="${post.getTitle()}"></p>
         <p class="text-white font-semibold mb-3" th:text="'Autor: '+ ${post.getUser().getUser()}"></p>
-        <p class="text-white" th:text="${post.getBody()}"></p>
+        <p class="text-white" th:utext="${post.getBody()}"></p>
     </main>
 
 </body>
