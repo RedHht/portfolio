@@ -1,6 +1,11 @@
 <nav id="nav-bar" class="flex w-screen rounded-b-lg p-3 box-border flex-col fixed z-50 bg-red md:justify-around md:flex-row">
     <div class="flex justify-between w-full rounded-lg box-border md:w-max">
-        <span class="justify-self-start font-semibold text-white">Thiago Ianuzzi</span>
+        <div class="justify-self-start w-max">
+            <a th:href="@{/}">
+                <img class="size-8 object-contain inline-block" th:src="@{/img/favicon.png}" alt="logo">
+                <span class="font-semibold text-white leading-8">Thiago Ianuzzi</span>
+            </a>
+        </div>
         <div id="burguer-button" class="md:hidden">
             <i class="fas fa-bars text-white"></i>
         </div>
@@ -8,17 +13,12 @@
     <div id="mobile-nav" class="hidden md:inline-block">
         <ul class="flex my-3 flex-col md:my-auto md:inline-block">
             <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer
-            hover:rounded-full hover:bg-red-400 hover:shadow-red-800 md:w-max">
-                <a th:href="@{/}"><button class="text-white"><i class="fas fa-home mr-1"></i> Inicio</button></a>
+            text-white hover:rounded-full hover:text-red-700 hover:shadow-red-800 md:w-max">
+                <a th:href="@{/}"><i class="fas fa-home mr-1"></i> Inicio</a>
             </li>
-            <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer hover:rounded-full hover:bg-red-400 hover:shadow-red-800">
-                <a th:href="@{/blog}"><button class="text-white shadow-none"><i class="fas fa-paperclip mr-1"></i> Blog</button></a>
-            </li>
-            <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer hover:rounded-full hover:bg-red-400 hover:shadow-red-800">
-                <button class="text-white shadow-none"><i class="fas fa-info mr-1"></i> Acerca de</button>
-            </li>
-            <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer hover:rounded-full hover:bg-red-400 hover:shadow-red-800">
-                <button class="text-white shadow-none"><i class="fas fa-cogs mr-1"></i> Servicios</button>
+            <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer
+            text-white hover:rounded-full hover:text-red-700 hover:shadow-red-800">
+                <a th:href="@{/blog}"><i class="fas fa-paperclip mr-1"></i> Blog</a>
             </li>
         </ul>
     </div>
