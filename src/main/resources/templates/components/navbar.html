@@ -1,6 +1,7 @@
-<nav id="nav-bar" class="flex w-screen rounded-b-lg p-3 box-border flex-col fixed z-50 bg-red md:justify-around md:flex-row">
+<nav id="nav-bar" class="flex w-screen rounded-b-lg p-3 box-border flex-col fixed z-50 bg-red md:justify-around md:flex-row"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="flex justify-between w-full rounded-lg box-border md:w-max">
-        <div class="justify-self-start w-max">
+        <div class="w-max">
             <a th:href="@{/}">
                 <img class="size-8 object-contain inline-block" th:src="@{/img/favicon.png}" alt="logo">
                 <span class="font-semibold  leading-8">Thiago Ianuzzi</span>
@@ -19,6 +20,15 @@
             <li class="transition-all text-center ease-in-out duration-400 inline-block pt-1 pb-1 pr-3 pl-3 cursor-pointer
              hover:rounded-full hover:text-red-700 hover:shadow-red-800">
                 <a th:href="@{/blog}"><i class="fas fa-paperclip mr-1"></i> Blog</a>
+            </li>
+
+            <li sec:authorize="${!isFullyAuthenticated()}" class="inline-block">
+                <a class="bg-green-400 hover:bg-green-500 text-white
+            font-bold py-2 px-4 rounded-full" th:href="@{/login}">Iniciar sesión</a>
+            </li>
+            <li sec:authorize="isFullyAuthenticated()" class="inline-block">
+                <a class="bg-red-400 hover:bg-red-500 text-white
+            font-bold py-2 px-4 rounded-full" th:href="@{/logout}">Cerrar sesión</a>
             </li>
         </ul>
     </div>
