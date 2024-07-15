@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title th:text="${title}"></title>
     <th:block th:replace="~{components/head}"> </th:block>
@@ -9,11 +9,20 @@
     <nav th:replace="~{components/navbar}"></nav>
 
     <main class="container mx-auto py-20 ">
+        <a sec:authorize="isFullyAuthenticated()"
+           class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2
+              px-4 my-3 rounded-full" th:href="@{/blog/new}">Nuevo Articulo</a>
         <div class="border rounded-lg border-solid border-amber-50">
-            <article class="p-2" th:each="post: ${posts}">
-                <a th:href="@{/blog/view/{id}(id=${post.id})}" class="text-lg text-white font-semibold" th:text="${post.getTitle()}"></a>
-                <br>
-                <span class="text-sm text-white" th:text="'Autor: '+ ${post.getUser().getUser()}"></span>
+            <article class="flex justify-between items-center p-2" th:each="post: ${posts}">
+                <div>
+                    <a th:href="@{/blog/view/{id}(id=${post.id})}" class="text-lg text-white font-semibold" th:text="${post.getTitle()}"></a>
+                    <br>
+                    <span class="text-sm text-white" th:text="'Autor: '+ ${post.getUser().getUser()}"></span>
+                </div>
+                <div th:if="${#authentication.getName() == post.getUser().getUser()}">
+                    <a class="inline-block bg-blue-400 hover:bg-blue-500 text-white font-bold py-2
+                     px-4 rounded-full" th:href="@{/blog/edit/{id}(id=${post.id})}">Editar</a>
+                </div>
             </article>
         </div>
     </main>

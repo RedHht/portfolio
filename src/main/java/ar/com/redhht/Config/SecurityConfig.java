@@ -21,7 +21,8 @@ public class SecurityConfig {
                 .rememberMe(Customizer.withDefaults())
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(c -> {
-                    c.requestMatchers("/blog/**").authenticated();
+                    c.requestMatchers("/blog/new").authenticated();
+                    c.requestMatchers("/blog/edit/*").authenticated();
                     c.requestMatchers("/**").permitAll();
                 })
                 .build();

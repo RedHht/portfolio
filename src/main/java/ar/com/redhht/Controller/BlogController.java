@@ -5,6 +5,7 @@ import ar.com.redhht.Model.Table.PostRepository;
 import ar.com.redhht.Model.Table.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,16 +56,26 @@ public class BlogController{
     }
 
     @GetMapping(path = "/new")
-    public String newPost(Model model) {
+    public String newPost(Model model, Authentication authentication) {
         model.addAttribute("page", "blog");
         model.addAttribute("title", "Blog - Nuevo post ");
+
+        if (authentication == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No puedes crear un post sin iniciar sesión.");
+        }
+
         return "blog/new";
     }
 
     @PostMapping(path = "/new")
-    public String newPostForm(WebRequest webRequest, UserRepository userRepository) {
+    public String newPostForm(WebRequest webRequest, Authentication authentication) {
         Post post = new Post();
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (authentication == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No puedes crear un post sin iniciar sesión.");
+        }
+
+        String principal = authentication.getName();
 
         post.setBody(webRequest.getParameter("body"));
         post.setUser(this.userRepository.getByUser(principal));
@@ -76,8 +87,12 @@ public class BlogController{
     }
 
     @GetMapping(path = "/edit/{postId}")
-    public String editPost(Model model, @PathVariable int postId) {
+    public String editPost(Model model, @PathVariable int postId, Authentication authentication) {
         Post post = postRepository.getById(postId);
+
+        if (!post.getUser().getUser().equals(authentication.getName())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No puedes editar este post.");
+        }
 
         if (post == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El post no existe");
@@ -88,8 +103,12 @@ public class BlogController{
     }
 
     @PostMapping(path = "/edit/{postId}")
-    public String editPostForm(WebRequest webRequest, @PathVariable int postId) {
+    public String editPostForm(WebRequest webRequest, @PathVariable int postId, Authentication authentication) {
         Post originalPost = postRepository.getById(postId);
+
+        if (!originalPost.getUser().getUser().equals(authentication.getName())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No puedes editar este post.");
+        }
 
         if (originalPost == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El post no existe");
