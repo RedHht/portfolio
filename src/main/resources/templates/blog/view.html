@@ -9,6 +9,14 @@
     <nav th:replace="~{components/navbar}"></nav>
 
     <main class="container mx-auto py-20 ">
+        <div class="py-3">
+            <a th:if="${#authentication.getName() == post.getUser().getUser()}"
+               class="inline-block bg-blue-400 hover:bg-blue-500 text-white font-bold py-2
+               px-4 rounded-full" th:href="@{/blog/edit/{id}(id=${post.id})}">Editar</a>
+            <a th:if="${#authentication.getName() == post.getUser().getUser()}"
+               class="inline-block bg-red-400 hover:bg-red-500 text-white font-bold py-2
+               px-4 rounded-full" th:href="@{/blog/delete/{id}(id=${post.id})}">Eliminar</a>
+        </div>
         <p class="text-xl text-white font-bold" th:text="${post.getTitle()}"></p>
         <p class="text-white font-semibold mb-3" th:text="'Autor: '+ ${post.getUser().getUser()}"></p>
         <p class="text-white" th:utext="${post.getBody()}"></p>

@@ -38,6 +38,12 @@ public class PostRepository{
         entityManager.getTransaction().commit();
     }
 
+    public void remove(Post post) {
+        entityManager.getTransaction().begin();
+        entityManager.remove(post);
+        entityManager.getTransaction().commit();
+    }
+
     public void update(Post post) {
         entityManager.getTransaction().begin();
         entityManager.merge(post);

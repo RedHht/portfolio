@@ -122,4 +122,21 @@ public class BlogController{
         return "redirect:/blog";
     }
 
+    @GetMapping(path = "/delete/{postId}")
+    public String deletePostForm(@PathVariable int postId, Authentication authentication) {
+        Post originalPost = postRepository.getById(postId);
+
+        if (!originalPost.getUser().getUser().equals(authentication.getName())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No puedes eliminar este post.");
+        }
+
+        if (originalPost == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El post no existe");
+        }
+
+        postRepository.remove(originalPost);
+
+        return "redirect:/blog";
+    }
+
 }
