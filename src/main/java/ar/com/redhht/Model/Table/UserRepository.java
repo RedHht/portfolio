@@ -3,6 +3,7 @@ package ar.com.redhht.Model.Table;
 import ar.com.redhht.Model.Entity.DbUser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,11 +14,9 @@ import java.util.List;
 
 @Component
 public class UserRepository implements UserDetailsService {
-    private final EntityManager entityManager;
 
-    UserRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<DbUser> getAll() {
         return entityManager.createQuery("SELECT u FROM DbUser u", DbUser.class).getResultList();
