@@ -32,24 +32,6 @@ public class UserRepository implements UserDetailsService {
         }
     }
 
-    public void save(DbUser user) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(user);
-        entityManager.getTransaction().commit();
-    }
-
-    public void update(DbUser user) {
-        entityManager.getTransaction().begin();
-        entityManager.merge(user);
-        entityManager.getTransaction().commit();
-    }
-
-    public void delete(DbUser user) {
-        entityManager.getTransaction().begin();
-        entityManager.remove(user);
-        entityManager.getTransaction().commit();
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {

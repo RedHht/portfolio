@@ -5,6 +5,7 @@ import ar.com.redhht.Model.Entity.Post;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -31,22 +32,19 @@ public class PostRepository{
         }
     }
 
+    @Transactional
     public void save(Post post) {
-        entityManager.getTransaction().begin();
         entityManager.persist(post);
-        entityManager.getTransaction().commit();
     }
 
+    @Transactional
     public void remove(Post post) {
-        entityManager.getTransaction().begin();
         entityManager.remove(post);
-        entityManager.getTransaction().commit();
     }
 
+    @Transactional
     public void update(Post post) {
-        entityManager.getTransaction().begin();
         entityManager.merge(post);
-        entityManager.getTransaction().commit();
     }
 
 }
