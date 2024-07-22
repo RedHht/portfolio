@@ -10,8 +10,8 @@
 
     <main class="container mx-auto py-20 ">
         <a sec:authorize="isFullyAuthenticated()"
-           class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2
-              px-4 my-3 rounded-full" th:href="@{/blog/new}">Nuevo Articulo</a>
+           class="inline-block bg-green-500 my-4 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded"
+           th:href="@{/blog/new}">Nuevo Articulo</a>
         <div class="border rounded-lg border-solid border-amber-50">
             <article class="flex justify-between items-center p-2" th:each="post: ${posts}">
                 <div>
