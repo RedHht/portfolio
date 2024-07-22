@@ -1,11 +1,10 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent { docker { image 'maven:3.9.6-eclipse-temurin-17-alpine'
-                     args '-p 8080:8080'} }
+    agent { docker { image 'maven:3.9.6-eclipse-temurin-17-alpine' }
     stages {
         stage('build') {
             steps {
-                sh 'mvn spring-boot:run'
+                sh 'mvn clean compile'
             }
         }
     }
