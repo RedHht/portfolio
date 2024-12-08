@@ -1,6 +1,8 @@
 package ar.com.redhht.Model.Entity;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "users")
@@ -8,8 +10,14 @@ public class DbUser{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy= GenerationType.IDENTITY) private int id;
-    @Column(name = "user") private String user;
-    @Column(name = "password") private String password;
+
+    @Nonnull
+    @Column(name = "user")
+    private String user;
+
+    @Nonnull
+    @Column(name = "password")
+    private String password;
 
     public int getId() {
         return id;
@@ -32,6 +40,7 @@ public class DbUser{
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
+
 }

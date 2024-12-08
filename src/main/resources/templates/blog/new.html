@@ -4,7 +4,7 @@
     <title th:text="${title}"></title>
     <th:block th:replace="~{components/head}"> </th:block>
 </head>
-<body class="bg-gray-900">
+<body class="bg-zinc-900 text-gray-300">
 
     <nav th:replace="~{components/navbar}"></nav>
 
@@ -12,9 +12,8 @@
         <form action="#" method="POST">
             <label for="title">Título:</label><br>
             <input type="text" id="title" name="title"><br>
-            <label for="author">Autor:</label><br>
-            <input type="text" id="author" name="author"><br>
             <label for="body">Contenido:</label><br>
+            <input th:name="${_csrf.getParameterName()}" type="hidden" th:value="${_csrf.getToken()}">
             <textarea id="body" name="body"></textarea><br><br>
             <input type="submit" value="Enviar">
         </form>
