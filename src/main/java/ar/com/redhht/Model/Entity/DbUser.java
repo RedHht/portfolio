@@ -1,5 +1,6 @@
 package ar.com.redhht.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,7 @@ public class DbUser{
     private String user;
 
     @Nonnull
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 

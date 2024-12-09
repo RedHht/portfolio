@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section id="post-container">
+
+    </section>
+    <script>
+    function getPosts(pageSize, page) {
+        let params = new URLSearchParams();
+        params.set("pageSize", pageSize);
+        params.set("page", page);
+    
+        fetch("http://localhost:8085/api/v1/blog?" + params)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            for (let post of data) {
+                let template = `<h1>${post.title}</h1>
+                                <h2>Autor: ${post.user.user}</h2>`;
+
+                document.write(template)
+            }
+        });
+    }
+
+    getPosts(10, 1);</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,12 +21,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .formLogin(Customizer.withDefaults())
-                .rememberMe(Customizer.withDefaults())
-                .csrf(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .csrf(c -> c.disable())
                 .authorizeHttpRequests(c -> {
-                    c.requestMatchers("/blog/new").authenticated();
-                    c.requestMatchers("/blog/edit/*").authenticated();
-                    c.requestMatchers("/**").permitAll();
+                    c.anyRequest().permitAll();
                 })
                 .build();
     }
