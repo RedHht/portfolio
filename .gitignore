@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
 node_modules
 
 ### STS ###
@@ -21,6 +22,7 @@ node_modules
 *.iml
 *.ipr
 
+### Spring Boot ###
 application.properties
 
 ### NetBeans ###

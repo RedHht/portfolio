@@ -1,15 +1,21 @@
 package ar.com.redhht.Model.Entity;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "users")
-public class DbUser{
+public class DbUser {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy= GenerationType.IDENTITY) private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Nonnull
     @Column(name = "user")
@@ -20,7 +26,7 @@ public class DbUser{
     private String password;
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -28,7 +34,7 @@ public class DbUser{
     }
 
     public String getUser() {
-        return user;
+        return this.user;
     }
 
     public void setUser(String user) {
@@ -36,11 +42,10 @@ public class DbUser{
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = (new BCryptPasswordEncoder()).encode(password);
     }
-
 }

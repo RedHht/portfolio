@@ -5,33 +5,29 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+        return (SecurityFilterChain)httpSecurity
                 .formLogin(Customizer.withDefaults())
                 .rememberMe(Customizer.withDefaults())
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(c -> {
-                    c.requestMatchers("/blog/new").authenticated();
-                    c.requestMatchers("/blog/edit/*").authenticated();
-                    c.requestMatchers("/**").permitAll();
-                })
-                .build();
+                    ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)c.requestMatchers(new String[] { "/blog/new" })).authenticated();
+                    ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)c.requestMatchers(new String[] { "/blog/edit/*" })).authenticated();
+                    ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)c.requestMatchers(new String[] { "/**" })).permitAll();
+                }).build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return (PasswordEncoder)new BCryptPasswordEncoder();
     }
 }

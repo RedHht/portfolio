@@ -1,25 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <title th:text="${title}"></title>
     <th:block th:replace="~{components/head}"> </th:block>
+    <script src="https://cdn.tiny.cloud/1/azhjjm1fz8iiuivks5i1tyeq962ll7v6kr9n17ied044fy0x/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
-<body class="bg-zinc-900 text-gray-300">
-
+<body>
     <nav th:replace="~{components/navbar}"></nav>
+        <form class="container" th:action="@{/blog/edit/{id}(id=${post.getId()})}" method="POST">
+            <div class="field">
+                <label class="label" for="author">Autor</label>
+                <div class="control">
+                    <input class="input" type="text" id="author" th:value="${post.getUser().getUser()}" disabled>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="title">Título</label>
+                <div class="control">
+                    <input class="input" type="text" id="title" name="title" th:value="${post.getTitle()}">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="body">Contenido</label>
+                <script>
+                    const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
+                        let csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+                        let csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
+                        const xhr = new XMLHttpRequest();
+                        xhr.withCredentials = false;
+                        xhr.open('POST', '/upload');
+                        xhr.setRequestHeader(csrfHeader, csrfToken)
 
-    <main class="container mx-auto py-20 ">
-        <p>Autor:</p>
-        <p th:text="${post.getUser().getUser()}"></p>
-        <form action="#" method="POST">
-            <label for="title">Título:</label><br>
-            <input type="text" id="title" name="title" th:value="${post.getTitle()}"><br>
-            <label for="body">Contenido:</label><br>
-            <textarea id="body" name="body" th:text="${post.getBody()}"></textarea><br><br>
-            <input th:name="${_csrf.getParameterName()}" type="hidden" th:value="${_csrf.getToken()}">
-            <input type="submit" value="Enviar">
+                        xhr.upload.onprogress = (e) => {
+                            progress(e.loaded / e.total * 100);
+                        };
+
+                        xhr.onload = () => {
+                            if (xhr.status === 403) {
+                                reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
+                                return;
+                            }
+
+                            if (xhr.status < 200 || xhr.status >= 300) {
+                                reject('HTTP Error: ' + xhr.status);
+                                return;
+                            }
+
+                            const json = JSON.parse(xhr.responseText);
+
+                            if (!json || typeof json.location != 'string') {
+                                reject('Invalid JSON: ' + xhr.responseText);
+                                return;
+                            }
+
+                            resolve(json.location);
+                        };
+
+                        xhr.onerror = () => {
+                            reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                        };
+
+                        const formData = new FormData();
+                        formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                        xhr.send(formData);
+                    });
+
+                    tinymce.init({
+                        selector: 'textarea',
+                        plugins: [
+                            // Core editing features
+                            'anchor', 'code', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+                            // Your account includes a free trial of TinyMCE premium features
+                            // Try the most popular premium features until Nov 30, 2024:
+                            'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+                            // Early access to document converters
+                            'importword', 'exportword', 'exportpdf'
+                        ],
+                        language: 'es',
+                        image_uploadtab: true,
+                        relative_urls: false,
+                        images_upload_handler: example_image_upload_handler,
+                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                        tinycomments_mode: 'embedded',
+                        tinycomments_author: 'Author name',
+                        mergetags_list: [
+                            { value: 'First.Name', title: 'First Name' },
+                            { value: 'Email', title: 'Email' },
+                        ],
+                        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+                        exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
+                        exportword_converter_options: { 'document': { 'size': 'Letter' } },
+                        importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
+                    });
+                </script>
+                <div class="control">
+                    <textarea id="body" name="body" th:text="${post.getBody()}"></textarea>
+                </div>
+            </div>
+            <button class="button is-link" type="submit">Enviar</button>
         </form>
-    </main>
-
 </body>
 </html>

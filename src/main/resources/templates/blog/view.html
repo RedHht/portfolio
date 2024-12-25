@@ -11,15 +11,17 @@
     <main class="container mx-auto py-20 ">
         <div class="py-3">
             <a th:if="${#authentication.getName() == post.getUser().getUser()}"
-               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+               class="button is-info"
                th:href="@{/blog/edit/{id}(id=${post.id})}">Editar</a>
             <a th:if="${#authentication.getName() == post.getUser().getUser()}"
-               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
+               class="button is-danger"
                th:href="@{/blog/delete/{id}(id=${post.id})}">Eliminar</a>
         </div>
-        <p class="text-xl text-white font-bold" th:text="${post.getTitle()}"></p>
-        <p class="text-white font-semibold mb-3" th:text="'Autor: '+ ${post.getUser().getUser()}"></p>
-        <p class="text-white" th:utext="${post.getBody()}"></p>
+        <p class="title is-4" th:text="${post.getTitle()}"></p>
+        <p class="subtitle is-5" th:text="'Autor: '+ ${post.getUser().getUser()}"></p>
+        <div class="content">
+            <p th:utext="${post.getBody()}"></p>
+        </div>
     </main>
 
 </body>
