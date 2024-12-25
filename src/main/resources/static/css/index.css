@@ -40,8 +40,8 @@ header {
     height: 100%;
     width: 100%;
     transition: all;
-    transition-duration: 800ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: .2s;
 }
 
 .technology-image:hover {
