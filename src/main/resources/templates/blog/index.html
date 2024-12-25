@@ -13,17 +13,47 @@
            class="button is-success"
            th:href="@{/blog/new}">Nuevo Articulo</a>
         <div class="grid my-4">
-            <article class="flex justify-between items-center cell my-2" th:each="post: ${posts}">
+            <article class="flex justify-between items-center cell my-2" th:each="post: ${postPage}">
                 <div>
-                    <a th:href="@{/blog/view/{id}(id=${post.id})}" class="text-lg text-white font-semibold" th:text="${post.getTitle()}"></a>
+                    <a th:href="@{/blog/view/{id}(id=${post.getId()})}" class="text-lg text-white font-semibold" th:text="${post.getTitle()}"></a>
                     <br>
                     <span class="text-sm text-white" th:text="'Autor: '+ ${post.getUser().getUser()}"></span>
                 </div>
             </article>
         </div>
-        <nav class="pagination" role="navigation" aria-label="pagination">
-            <a th:if="${pageNumber > 0}" th:href="@{'/blog?page='+${pageNumber - 1}}" class="pagination-previous">Página Anterior</a>
-            <a th:if="${pageNumber != posts.getTotalPages() - 1}" th:href="@{'/blog?page='+${pageNumber + 1}}" class="pagination-next">Siguiente Página</a>
+
+        <nav class="pagination is-centered" role="navigation" aria-label="pagination" >
+
+            <a th:if="${postPage.hasPrevious()}" th:href="@{'/blog?page='+${postPage.getNumber() - 1}}" class="pagination-previous">Página Anterior</a>
+            <a th:if="${postPage.hasNext()}" th:href="@{'/blog?page='+${postPage.getNumber() + 1}}" class="pagination-next">Siguiente Página</a>
+
+            <ul class="pagination-list" th:with="userFriendlyPageNumber=${postPage.getNumber() + 1}">
+
+                <li><a th:if="${postPage.getNumber() > 0}" th:href="@{'/blog?page='+${0}}" class="pagination-link" aria-label="Goto page 1">1</a></li>
+                <li><span th:if="${postPage.getNumber() > 0}" class="pagination-ellipsis">&hellip;</span></li>
+
+                <li><a th:if="${postPage.hasPrevious()}" th:href="@{'/blog?page='+${postPage.getNumber() - 1}}"
+                       th:text="${userFriendlyPageNumber - 1}"
+                       class="pagination-link" aria-label="Goto page 45"></a></li>
+                <li>
+                    <a
+                            class="pagination-link is-current"
+                            aria-label="Page 46"
+                            th:text="${postPage.getNumber() + 1}"
+                            aria-current="page"
+                    ></a
+                    >
+                </li>
+                <li><a th:if="${postPage.hasNext()}" th:href="@{'/blog?page='+${postPage.getNumber() + 1}}"
+                       th:text="${userFriendlyPageNumber + 1}"  class="pagination-link" aria-label="Goto page 47"></a></li>
+
+                <li><span th:if="${postPage.getNumber() < postPage.getTotalPages() - 1}" class="pagination-ellipsis">&hellip;</span></li>
+                <li><a th:if="${postPage.getNumber() < postPage.getTotalPages() - 1}"
+                       th:href="@{'/blog?page='+${postPage.getTotalPages() - 1}}"
+                       th:text="${postPage.getTotalPages()}"
+                       class="pagination-link" aria-label="Goto page 86"></a></li>
+
+            </ul>
         </nav>
     </main>
 </body>
