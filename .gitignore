@@ -24,6 +24,7 @@ node_modules
 
 ### Spring Boot ###
 application.properties
+!/src/main/resources/application.properties
 
 ### NetBeans ###
 /nbproject/private/
