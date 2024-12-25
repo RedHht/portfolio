@@ -1,0 +1,22 @@
+debug: false
+
+server:
+  port: 8085
+
+spring:
+  datasource:
+    username: myUsername
+    password: myPassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/portfolio
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 8600
